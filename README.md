@@ -1,2 +1,2 @@
-# TianTing
-Hight Performance Game Server 
+# 天庭
+>一款由　Golang　打造的高效能遊戲伺服器！
