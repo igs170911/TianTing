@@ -4,6 +4,7 @@ import (
 	"TianTing/Core"
 	"TianTing/Core/TianTingSDK"
 	_ "github.com/joho/godotenv/autoload"
+	"github.com/kataras/iris/v12"
 )
 
 func main() {

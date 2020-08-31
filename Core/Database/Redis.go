@@ -105,7 +105,7 @@ func (r *CacheDB) Get(key string) ([]byte, error) {
 }
 
 func (r *CacheDB) Delete(key string) (bool, error) {
-	return redis.Bool(r.redo("DEL", key)), nil
+	return redis.Bool(r.redo("DEL", key))
 }
 
 func (r *CacheDB) LikeDeletes(key string) error {
