@@ -1,0 +1,22 @@
+[app]
+CodeName          = "玉皇大帝"
+AppMode           = "debug"
+SSL			          = false
+Domain            = ""
+AdminEmail        = ""
+LogLevel          = "info"
+RpcCommandMode    = false
+Endpoint          = "0.0.0.0"
+RpcBindPort       = 9999
+HttpPort          = 8080
+ReadTimeout       = 2000
+WriteTimeout      = 15000
+
+[redis]
+Host              = "127.0.0.1"
+Port              = 6379
+Password          = ""
+MaxIdle           = 100
+MaxActive         = 4000
+IdleTimeout       = 180
+Database          = 0

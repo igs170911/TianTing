@@ -1,49 +1,34 @@
 package Core
 
 import (
-	"TianTing/Options"
 	"TianTing/Settings"
-	"errors"
-	"fmt"
 	"github.com/koding/multiconfig"
+	"sync"
 )
 
-type IConfig interface {}
-type Config struct {
-	App *Settings.AppConf
-	custom map[string]interface{}
-	Raw    map[string]string
-}
-
-var _ IConfig = &Config{}
-
-func (config *Config) LoadExternalEnv(envPrefix string, conf interface{}, opts ...*Options.LoadEnvOptions) {
-	envOpt := Options.MergeLoadEnvOptions(opts...)
-	config.loadEnv(envPrefix, conf, envOpt)
-	config.custom[envPrefix] = conf
-}
-
-
-func (config *Config)GetEnv(prefix string) (interface{}, error) {
-	if val, ok := config.custom[prefix]; ok {
-		return val, nil
+type (
+	// Server holds supported types by the multiconfig package
+	Server struct {
+		App   *Settings.AppConf
+		Redis *Settings.CacheDbConf
 	}
-	fmt.Println(fmt.Errorf("[ConfigSystem] Config Not Found in Prefix `%s`, Please Check", prefix))
-	return nil, errors.New("settings not found")
-}
+)
 
-func (config *Config) SystemExternalEnv(envPrefix string, conf interface{}, opts ...*Options.LoadEnvOptions) {
-	envOpt := Options.MergeLoadEnvOptions(opts...)
-	config.loadEnv(envPrefix, conf, envOpt)
-}
+// 全域唯一取得config
 
-func (config *Config) loadEnv(envPrefix string, conf interface{}, opts *Options.LoadEnvOptions) {
-	InstantiateLoader := &multiconfig.EnvironmentLoader{
-		Prefix:    envPrefix,
-		CamelCase: *opts.CamelCase,
-	}
-	err := InstantiateLoader.Load(conf)
-	if err != nil {
-		panic(err)
-	}
+var Cfg Server
+var once sync.Once
+
+func GetConfig() Server {
+	once.Do(func() {
+		m := multiconfig.NewWithPath("config.toml") // supports TOML and JSON
+		// Get an empty struct for your configuration
+		serverConf := new(Server)
+		// Populated the serverConf struct
+		m.MustLoad(serverConf) // Check for error
+		//fmt.Println("After Loading: ")
+		//fmt.Printf("%+v\n", serverConf)
+		Cfg = *serverConf
+	})
+	return Cfg
 }
