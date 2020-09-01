@@ -11,6 +11,7 @@ type (
 	Server struct {
 		App   *Settings.AppConf
 		Redis *Settings.CacheDbConf
+		Mongo *Settings.DocDbConf
 	}
 )
 

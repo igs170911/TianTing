@@ -13,7 +13,6 @@ type TianTingServer struct {
 	Key             string
 	KeyUpdate       time.Time
 	TokenExpireTime int
-	TianTingCacheDb *Database.CacheDB
 
 	//systemGameDict map[string]IGameSystem
 	//socketGameDict map[string]IGameSystem
@@ -21,8 +20,8 @@ type TianTingServer struct {
 	//
 	//enableRpcTraffic  bool
 	//gameRpcConnection LiquidRpc.GameAdapterClient
-	//liquidDocDb       *Database.DocDB
-	//liquidCacheDb     *Database.CacheDB
+	DocDb       *Database.DocDB
+	CacheDb     *Database.CacheDB
 	//liquidRelationDb  *Database.RDB
 	//liquidMsgQueue    MsgQueue.IAMQP
 }

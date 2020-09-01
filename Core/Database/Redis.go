@@ -16,6 +16,8 @@ type CacheDB struct {
 	clientPool *redis.Pool
 }
 
+// 這樣設計的好處就是只要抽換這裡以及 Config 就可以換資料庫了
+
 func ConnectWithCacheDB(config *Settings.CacheDbConf) (*CacheDB, error) {
 
 	Logger.SysLog.Info("[CacheDatabase] Connecting to Cache Service")

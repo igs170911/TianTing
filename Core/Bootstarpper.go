@@ -45,6 +45,10 @@ func New() *Core {
 	TianTingSDK.GetServer().SetCodeName(core.Config.App.CodeName)
 	// 掛載遊戲資料庫(CatchDB)
 	TianTingSDK.GetServer().ConnectCacheDbService(core.Config.Redis)
+	// 掛載遊戲資料庫(DocDB)
+	TianTingSDK.GetServer().ConnectDocDbService(core.Config.Mongo)
+
+
 	// 初始化 Server 金鑰
 	TianTingSDK.GetServer().InitCodenameKey()
 	core.initIrisCore()
