@@ -22,7 +22,7 @@ type TianTingServer struct {
 	//gameRpcConnection LiquidRpc.GameAdapterClient
 	DocDb       *Database.DocDB
 	CacheDb     *Database.CacheDB
-	//liquidRelationDb  *Database.RDB
+	//liquidRelationDb  *Datoabase.RDB
 	//liquidMsgQueue    MsgQueue.IAMQP
 }
 

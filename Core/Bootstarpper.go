@@ -2,6 +2,7 @@ package Core
 
 import (
 	"TianTing/Core/TianTingSDK"
+	"TianTing/Features/Foundation"
 	"TianTing/Logger"
 	"TianTing/Middleware"
 	"fmt"
@@ -73,6 +74,7 @@ func (core *Core) initIrisCore() {
 		[]byte(TianTingSDK.Instance.Key),
 	)
 	// 註冊基礎路由
+	core.RegIrisRouter("/", Foundation.Routers)
 }
 
 // SetupSessions initializes the sessions, optionally.
@@ -83,6 +85,7 @@ func (core *Core) SetupSessions(expires time.Duration, cookieHashKey, cookieBloc
 		Encoding: securecookie.New(cookieHashKey, cookieBlockKey),
 	})
 }
+
 
 // SetupWebsockets prepares the websocket server.
 //func (b *Bootstrapper) SetupWebsockets(endpoint string, handler websocket.ConnHandler) {
