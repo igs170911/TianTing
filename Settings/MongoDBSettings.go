@@ -1,6 +1,7 @@
 package Settings
 
 type DocDbConf struct {
+	Enable            bool `default:""`
 	Protocol          string `default:""`
 	Host              string `default:""`
 	DefaultDb         string `default:""`

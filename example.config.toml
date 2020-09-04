@@ -22,6 +22,7 @@ IdleTimeout       = 180
 Database          = 0
 
 [mongo]
+Enable            = true
 Protocol          = "mongodb"
 Host              = "127.0.0.1:27017"
 DefaultDb         = ""

@@ -13,8 +13,7 @@ type TianTingServer struct {
 	Key             string
 	KeyUpdate       time.Time
 	TokenExpireTime int
-
-	//systemGameDict map[string]IGameSystem
+	//systemCmd map[string]ISystemCMD
 	//socketGameDict map[string]IGameSystem
 	//memberDict     map[string]IMemberSystem
 	//

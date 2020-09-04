@@ -16,10 +16,10 @@ type (
 )
 
 // 全域唯一取得config
-
 var Cfg Server
 var once sync.Once
 
+//TODO 修正 1. 要有default 值 2. 有需要的才載入
 func GetConfig() Server {
 	once.Do(func() {
 		m := multiconfig.NewWithPath("config.toml") // supports TOML and JSON

@@ -2,7 +2,7 @@ package Core
 
 import (
 	"TianTing/Core/TianTingSDK"
-	"TianTing/Features/Foundation"
+	"TianTing/API/Foundation"
 	"TianTing/Logger"
 	"TianTing/Middleware"
 	"fmt"
@@ -47,9 +47,9 @@ func New() *Core {
 	// 掛載遊戲資料庫(CatchDB)
 	TianTingSDK.GetServer().ConnectCacheDbService(core.Config.Redis)
 	// 掛載遊戲資料庫(DocDB)
-	TianTingSDK.GetServer().ConnectDocDbService(core.Config.Mongo)
-
-
+	if(core.Config.Mongo.Enable){
+		TianTingSDK.GetServer().ConnectDocDbService(core.Config.Mongo)
+	}
 	// 初始化 Server 金鑰
 	TianTingSDK.GetServer().InitCodenameKey()
 	core.initIrisCore()
