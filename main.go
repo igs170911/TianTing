@@ -1,19 +1,20 @@
 package main
 
 import (
-	"TianTing/Core"
+	"fmt"
+	"math/rand"
+	"strconv"
+	"time"
+
+	//"strconv"
+	//"time"
 )
 
-type HelloWorld struct{}
+ func main() {
+	 fmt.Println(getAutoIdToInviteCode("1000001"))
 
-func (s *HelloWorld)Hello(request string, reply *string) error{
-	*reply = "Hello:" + request
-	return nil
+	//app := Core.New()
+	////inst := app.GetService()
+	//app.Serve()
 }
 
-func main() {
-
-	app := Core.New()
-	//inst := app.GetService()
-	app.Serve()
-}
