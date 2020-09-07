@@ -3,6 +3,7 @@ package TianTingSDK
 import (
 	"TianTing/Logger"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"math/rand"
 	"strconv"
@@ -66,7 +67,84 @@ func CreateUser(fromType ,fromID string) *User{
 	}
 	CreateTime := time.Now()
 	inviteCode := getAutoIdToInviteCode(autoID)
-	return
+	if fromID == ""{
+		fromID = autoID
+	}
+
+	TianTingUser := &User{
+		AutoId: autoID,
+		InviteCode: inviteCode,
+		Create:  CreateTime,
+		Update: CreateTime,
+		FromType: fromType,
+		FromId: fromID,
+	}
+	_,insertErr := GetServer().GetGameUserCol().InsertOne(nil,TianTingUser)
+	if insertErr != nil{
+		Logger.SysLog.Errorf("[CMD][CreateUser] Insert To DB error" )
+		return nil
+	}
+	// TODO 看看要不要順便創立遊戲使用者
+	// 用撈的可以驗證一下資料是否跟新增的一樣
+	TianTingUser = FindGuestUser(autoID)
+	return TianTingUser
+}
+
+// 確認是否有這個會員帳號（沒驗證
+func FindGuestUser(autoID string) *User{
+	filter := bson.M{"auto_id": autoID}
+	var user *User
+	findUserErr := GetServer().GetGameUserCol().FindOne(nil, filter).Decode(&user)
+	if findUserErr != nil {
+		Logger.SysLog.Errorf("[CMD][CreateUser] FindGuestUser error!" )
+		return nil
+	}
+	return user
+}
+
+// 來平台上找該平台使用者
+func FindUserByFrom(fromType string, fromId string) *User {
+	filter := bson.M{"from_id": fromId, "from_type": fromType}
+	var user *User
+	findUserErr := GetServer().GetUserCol().FindOne(nil, filter).Decode(&user)
+	if findUserErr != nil {
+		Logger.SysLog.Errorf("[CMD][CreateUser] FindLiquidUserFromType error!" )
+		return nil
+	}
+	return user
+}
+
+// 使用 AutoID + Invite Code 來找尋使用者
+func FindUserByInviteCode(autoID ,inviteCode string) *User{
+	filter := bson.M{"auto_id":autoID, "invite_code": inviteCode}
+	var user *User
+	findUserErr := GetServer().GetGameUserCol().FindOne(nil,filter)
+	if findUserErr!= nil{
+		Logger.SysLog.Errorf("[CMD][CreateUser] FindUserByInviteCode error!" )
+		return nil
+	}
+	return user
+}
+
+// 將帳號綁定到第3方平台上面
+func BindUser(AutoId string, FromId string, FromType string, FromToken string) (*mongo.UpdateResult, error) {
+	filter := bson.M{"auto_id": AutoId}
+	setBindData := bson.M{
+		"$set": bson.M{
+			"from_id":    FromId,
+			"from_type":  FromType,
+			"from_token": FromToken,
+		},
+	}
+	setBindResult, setBindResultErr := GetServer().GetUserCol().UpdateOne(
+		nil,
+		filter,
+		setBindData,
+	)
+	if setBindResultErr != nil {
+		return nil, setBindResultErr
+	}
+	return setBindResult, nil
 }
 
 

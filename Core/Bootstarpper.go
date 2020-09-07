@@ -1,8 +1,9 @@
 package Core
 
 import (
+	"TianTing/API/base"
+	"TianTing/Core/Froundation"
 	"TianTing/Core/TianTingSDK"
-	"TianTing/API/Foundation"
 	"TianTing/Logger"
 	"TianTing/Middleware"
 	"fmt"
@@ -74,7 +75,8 @@ func (core *Core) initIrisCore() {
 		[]byte(TianTingSDK.Instance.Key),
 	)
 	// 註冊基礎路由
-	core.RegIrisRouter("/", Foundation.Routers)
+	core.RegIrisRouter("GetKey","/", base.Routers)
+	core.RegIrisRouter("Froundation","/", Froundation.Routers)
 }
 
 // SetupSessions initializes the sessions, optionally.

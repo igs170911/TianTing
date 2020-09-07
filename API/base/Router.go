@@ -1,4 +1,4 @@
-package Foundation
+package base
 
 import (
 	"github.com/kataras/iris/v12"

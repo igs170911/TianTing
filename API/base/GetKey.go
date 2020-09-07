@@ -1,4 +1,4 @@
-package Foundation
+package base
 
 import (
 	"TianTing/Core/TianTingSDK"
